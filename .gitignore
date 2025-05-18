@@ -41,6 +41,8 @@ dist.tar.gz
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# .env files
+**/.env.template
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
@@ -49,7 +51,6 @@ go.work
 
 # .env files except for template
 docker/.env
-docker/.env.template
 Taipei-City-Dashboard-FE/.env
 Taipei-City-Dashboard-FE/.env.development
 Taipei-City-Dashboard-FE/.env.production
