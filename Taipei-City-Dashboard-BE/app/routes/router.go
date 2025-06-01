@@ -27,6 +27,7 @@ var (
 
 // ConfigureRoutes configures all routes for the API and sets version router groups.
 func ConfigureRoutes() {
+	
 	Router.Use(middleware.ValidateJWT)
 	// API routers
 	RouterGroup = Router.Group("/api/" + global.VERSION)
@@ -38,7 +39,35 @@ func ConfigureRoutes() {
 	configureIncidentRoutes()
 	// configureWsRoutes()
 	configureContributorRoutes()
+
+	configureRouters()
+	
 }
+
+
+func configureRouters() {
+	// Router.GET("/api/tooltip/:district", controllers.GetTooltipData)
+
+	authRoutes := RouterGroup.Group("/tooltip")
+	authRoutes.Use(middleware.LimitAPIRequests(global.AuthLimitAPIRequestsTimes, global.LimitRequestsDuration))
+	authRoutes.Use(middleware.LimitTotalRequests(global.AuthLimitTotalRequestsTimes, global.TokenExpirationDuration))
+	// authRoutes.POST("/login", controllers.Login)
+	// taipeipass login callback
+	authRoutes.GET("/:district", controllers.GetTooltipData)
+
+
+	// ----------
+
+	// userRoutes.Use(middleware.IsLoggedIn())
+	// {
+	// 	userRoutes.GET("/me", controllers.GetUserInfo)
+	// 	userRoutes.PATCH("/me", controllers.EditUserInfo)
+	// 	userRoutes.POST("/:id/viewpoint", controllers.CreateViewPoint)
+	// 	userRoutes.GET("/:id/viewpoint", controllers.GetViewPointByUserID)
+	// 	userRoutes.DELETE("/:id/viewpoint/:viewpointid", controllers.DeleteViewPoint)
+	// }
+}
+
 
 func configureAuthRoutes() {
 	// auth routers
